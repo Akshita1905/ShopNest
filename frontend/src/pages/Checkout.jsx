@@ -26,19 +26,17 @@ const Checkout = () => {
       const orderData = await orderRes.json();
 
       if (!orderRes.ok) {
-        console.error('Payment order creation failed:', orderData);
-        const fallback = window.confirm(
-          `Razorpay order setup failed: ${orderData.message || 'Unknown error'}.\nUse Student Bypass Mode to place test order?`
-        );
+        // Razorpay unconfigured exception handler
+        const fallback = window.confirm("Razorpay keys unconfigured on backend. Use Student Bypass Mode to place test order?");
         if (fallback) {
           return bypassPayment();
         } else {
-          return alert(`Payment failed to initialize: ${orderData.message || 'Unknown error'}`);
+          return alert("Payment failed to initialize");
         }
       }
 
       const options = {
-        key: orderData.key_id || 'rzp_test_dummykey123',
+        key: 'rzp_test_dummykey123', // Student dummy fallback
         amount: orderData.amount,
         currency: orderData.currency,
         name: 'ShopNest',
