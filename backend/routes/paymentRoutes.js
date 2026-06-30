@@ -3,6 +3,6 @@ const { createdOrder, verifyPayment } = require("../controller/paymentController
 const router = express.Router();
 
 router.post("/order", createdOrder);
-router.post("/payment", verifyPayment);
+router.post("/verify", verifyPayment);
 
 module.exports = router;

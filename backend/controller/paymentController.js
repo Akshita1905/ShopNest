@@ -11,9 +11,9 @@ const createdOrder = async (req, res) => {
         const options = {
             amount: req.body.amount * 100, // amount in the smallest currency unit
             currency: "INR",
-            receipt: crypto.randomBytes(10).toString("hex"), // generate a random receipt id
         };
         const order = await instance.orders.create(options);
+        if(!order) return res.status(500).send("some error occured");
         return res.status(200).json(order);
     } catch (error) {
         return res.status(500).json({ message: "Error creating order", error });
@@ -23,9 +23,10 @@ const createdOrder = async (req, res) => {
 const verifyPayment = async (req, res) => {
     try {
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+        const sign = razorpay_order_id + "|" + razorpay_payment_id
         const generated_signature = crypto
             .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-            .update(razorpay_order_id + "|" + razorpay_payment_id)
+            .update(sign.toString())
             .digest("hex");
             if (generated_signature === razorpay_signature) {
                 return res.status(200).json({ message: "Payment verified successfully" });
