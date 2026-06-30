@@ -13,10 +13,18 @@ const createdOrder = async (req, res) => {
             currency: "INR",
         };
         const order = await instance.orders.create(options);
-        if(!order) return res.status(500).send("some error occured");
-        return res.status(200).json(order);
+        if (!order) return res.status(500).json({ message: "Some error occurred while creating Razorpay order" });
+        return res.status(200).json({
+            id: order.id,
+            amount: order.amount,
+            currency: order.currency,
+            key_id: process.env.RAZORPAY_KEY_ID,
+            receipt: order.receipt,
+            notes: order.notes
+        });
     } catch (error) {
-        return res.status(500).json({ message: "Error creating order", error });
+        console.error("Error creating Razorpay order:", error);
+        return res.status(500).json({ message: "Error creating order", error: error.message || error });
     }
 };
 
