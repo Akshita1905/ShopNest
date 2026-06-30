@@ -42,43 +42,38 @@ const ProductDetail = () => {
   if (!product) return <div style={{ textAlign: 'center', margin: '100px', color: '#ef4444' }}>Product Not Found</div>;
 
   return (
-    <div className="product-detail-wrapper" style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
-      
-      {/* Breadcrumb Navigation */}
+    <div className="product-detail-wrapper" style={{ maxWidth: '1250px', margin: '0 auto', padding: '24px' }}>
       <div style={{ color: '#a1a1aa', marginBottom: '20px', fontSize: '0.95rem' }}>
         <Link to="/" style={{ color: '#f97316' }}>Home</Link> / <Link to="/shop" style={{ color: '#f97316' }}>Shop</Link> / {product.category} / <span style={{ color: '#fff' }}>{product.name}</span>
       </div>
 
       <div className="product-detail">
-        {/* Left Side: Image */}
         <div className="detail-image-container">
           <img src={product.imageUrl} alt={product.name} className="detail-image" />
         </div>
 
-        {/* Right Side: Information Block */}
         <div className="detail-info">
-          
-          <h2 style={{ fontSize: '2.8rem', marginBottom: '10px' }}>{product.name}</h2>
+          <p style={{ margin: 0, color: '#fb923c', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', fontSize: '0.8rem' }}>{product.category}</p>
+          <h2 style={{ fontSize: '2.4rem', margin: '8px 0 10px' }}>{product.name}</h2>
+          <p className="detail-price">₹{Number(product.price || 0).toFixed(2)}</p>
 
-          <p className="detail-price" style={{ fontSize: '2.5rem', margin: '15px 0' }}>₹{product.price.toFixed(2)}</p>
-
-          {/* Description */}
-          <div style={{ marginBottom: '25px' }}>
+          <div style={{ marginBottom: '24px' }}>
             <h4 style={{ color: '#fff', marginBottom: '10px' }}>Product Description</h4>
-            <p style={{ color: '#a1a1aa', lineHeight: '1.8' }}>{product.description}</p>
+            <p style={{ color: '#cbd5e1', lineHeight: '1.8', margin: 0 }}>{product.description}</p>
           </div>
 
-          {/* Cart & Stock Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            <button onClick={handleAddToCart} className="btn" style={{ flexGrow: '1', padding: '18px', fontSize: '1.2rem' }}>
-              Add to Shopping Cart
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <button onClick={handleAddToCart} className="btn" style={{ flexGrow: '1', padding: '16px 18px', fontSize: '1.05rem' }}>
+              Add to Cart
             </button>
+            <Link to="/shop" style={{ color: '#fb923c', fontWeight: 700 }}>Continue Shopping</Link>
           </div>
-          
-          <p style={{ marginTop: '20px', color: product.stock > 0 ? '#10b981' : '#ef4444', fontWeight: '600' }}>
-            {product.stock > 0 ? `● In Stock (${product.stock} units available)` : `● Temporarily Out of Stock`}
-          </p>
 
+          <div style={{ marginTop: '20px', padding: '14px 16px', borderRadius: '12px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <p style={{ margin: 0, color: product.stock > 0 ? '#34d399' : '#ef4444', fontWeight: '600' }}>
+              {product.stock > 0 ? `● In Stock (${product.stock} units available)` : '● Temporarily Out of Stock'}
+            </p>
+          </div>
         </div>
       </div>
     </div>
